@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import {
   AppBar,
@@ -5,246 +7,154 @@ import {
   Button,
   Container,
   Divider,
+  Drawer,
   Grid,
   IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Paper,
-  TextField,
   Toolbar,
   Typography
 } from '@mui/material';
-import { InfoField } from './components/InfoField';
 import MenuIcon from '@mui/icons-material/Menu';
 import LaunchIcon from '@mui/icons-material/Launch';
 import EditIcon from '@mui/icons-material/Edit';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import theme from './theme';
+import { InfoField } from './components/InfoField';
+import FinancialDataManagement from './FinancialDataManagement';
+import CompanyDetail from './CompanyDetail'; // Import the CompanyDetail component
+import Home from './Home'; // Import the Home component
+import HomeIcon from '@mui/icons-material/Home';
+import StorageIcon from '@mui/icons-material/Storage';
 
 function App() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <AppBar
-        color="default"
-        position="fixed"
-        elevation={4}
-      >
-        <Toolbar
-          sx={{
-            minHeight: '64px',
-            px: { xs: 2, sm: 4 }
-          }}
-        >
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-
-          <Typography
-            variant="h6"
-            component="div"
-            color="text.primary"
-            sx={{
-              flexGrow: 1,
-              fontWeight: 500,
-              letterSpacing: '0.5px'
-            }}
-          >
-            Financial Data Management
-          </Typography>
-
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ 
-              lineHeight: '1.5'     // For proper vertical alignment
-            }}
-          >
-            Logged in as dyun@svb.com
-          </Typography>
-
-          <Divider
-            orientation="vertical"
-            sx={{
-              mx: 2,
-              height: '24px',
-              borderColor: 'rgba(0, 0, 0, 0.12)'
-            }}
-          />
-
-          <Button color="inherit">
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
-
-      <Toolbar /> {/* Spacer for fixed AppBar */}
-      <Container 
-        maxWidth={false} 
-        sx={{ 
-          bgcolor: '#f5f5f5',
-          minHeight: 'calc(100vh - 64px)',
-          py: 3,
-
-        }}
-      >
-        <Paper 
-        elevation={4}
-        sx={{ 
-          maxWidth: "xl", 
-          p: 3, 
-          bgcolor: "white", 
-          borderRadius: 1,
-          minHeight: 'calc(100vh - 64px)', // Full viewport height minus AppBar
-          mx: 'auto', // Center the box
-          my: 3, // Add some vertical margin
-        }}>
-          <Grid container spacing={6}>
-            <Grid item xs={12} container justifyContent="space-between">
-              <Grid item>
-                <Typography variant="overline" color="textSecondary">
-                  SUBSIDIARY
+      <Router>
+        <AppBar color="default" position="fixed" elevation={4}>
+          <Toolbar sx={{ minHeight: '64px', px: { xs: 2, sm: 4 } }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleDrawerOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
+              <Box
+                sx={{ width: 344 }}
+                role="presentation"
+                onClick={handleDrawerClose}
+                onKeyDown={handleDrawerClose}
+              >
+                <Typography variant="h6" sx={{ p: 2 }}>
+                  Pages
                 </Typography>
-                <Typography variant="h5" color="textPrimary">
-                  Scout Marketing Company, LLC
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  endIcon={<LaunchIcon />}
-                  sx={{ mr: 2 }}
-                >
-                  VIEW PARENT
-                </Button>
-                <Button variant="outlined" color="primary" startIcon={<EditIcon />}>
-                  EDIT
-                </Button>
-              </Grid>
-            </Grid>
+                <Divider />
+                <List>
+                <ListItem button component={Link} to="/">
+                    <ListItemIcon>
+                      <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                  </ListItem>
+                  <ListItem button component={Link} to="/financial-data-management">
+                    <ListItemIcon>
+                      <StorageIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Financial Data Management" secondary="Manage financial workbooks" />
+                  </ListItem>
+                  <ListItem button component={Link} to="/profile">
+                    <ListItemIcon>
+                      <AccountCircleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" secondary="View and edit your profile" />
+                  </ListItem>
+                  <ListItem button component={Link} to="/my-account">
+                    <ListItemIcon>
+                      <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="My account" secondary="Manage your account settings" />
+                  </ListItem>
+                </List>
+              </Box>
+            </Drawer>
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              <PageTitle />
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: '1.5' }}>
+              Logged in as dyun@svb.com
+            </Typography>
+            <Divider orientation="vertical" sx={{ mx: 2, height: '24px', borderColor: 'rgba(0, 0, 0, 0.12)' }} />
+            <Button color="inherit">Logout</Button>
+          </Toolbar>
+        </AppBar>
 
-            <Grid item xs={12} container spacing={3}>
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Codat Connection"
-                  value="Connected"
-                  isStatus={true}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Monthly Refresh"
-                  value="Enabled"
-                  isStatus={true}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Codat ID"
-                  value="1f463dc2-51c2-46a1-891d-bb4b279f8e36"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Accounting Software Provider"
-                  value="Quickbooks Online"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="CIF"
-                  value="123456789"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Team Code"
-                  value="12A"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Team Code Mailbox"
-                  value="12A@svb.com"
-                  isEditable={true}
-                  type="email"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="FY End Date"
-                  value="Dec 2024"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Connection Source"
-                  value="DLA"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="CRM Entity ID"
-                  value="123456"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <Grid item xs={12} sm={6} md={4}>
-                  <InfoField 
-                    label="Monthly Reminder Email"
-                    value="Enabled"
-                    isStatus={true}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Primary Email"
-                  value="sam@scout.com"
-                  isEditable={true}
-                  type="email"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="Secondary Client Email"
-                  value="nick@scout.com"
-                  isEditable={true}
-                  type="email"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <InfoField 
-                  label="CRM Primary Email Contact"
-                  value="jlee@scout.com"
-                  isEditable={true}
-                  type="email"
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Container>
+        <Toolbar /> {/* Spacer for fixed AppBar */}
+        <Container maxWidth={false} sx={{ bgcolor: '#f5f5f5', minHeight: 'calc(100vh - 64px)', py: 3 }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/financial-data-management" element={<FinancialDataManagement />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/my-account" element={<MyAccount />} />
+            <Route path="/company/:id" element={<CompanyDetail />} /> {/* Use CompanyDetail component */}
+          </Routes>
+        </Container>
+      </Router>
     </ThemeProvider>
   );
 }
+
+const PageTitle = () => {
+  const location = useLocation();
+  let title = 'App Title';
+
+  if (location.pathname === '/') {
+    title = 'dxtrs-lab';
+  } else if (location.pathname.startsWith('/company/')) {
+    title = 'Company Detail';
+  } else if (location.pathname === '/financial-data-management') {
+    title = 'Financial Data Management';
+  } else if (location.pathname === '/profile') {
+    title = 'Profile';
+  } else if (location.pathname === '/my-account') {
+    title = 'My Account';
+  }
+
+  return <>{title}</>;
+};
+
+const Profile = () => (
+  <Paper elevation={4} sx={{ maxWidth: 'xl', p: 3, bgcolor: 'white', borderRadius: 1, mx: 'auto', my: 3 }}>
+    <Typography variant="h5" color="textPrimary">
+      Profile Page
+    </Typography>
+  </Paper>
+);
+
+const MyAccount = () => (
+  <Paper elevation={4} sx={{ maxWidth: 'xl', p: 3, bgcolor: 'white', borderRadius: 1, mx: 'auto', my: 3 }}>
+    <Typography variant="h5" color="textPrimary">
+      My Account Page
+    </Typography>
+  </Paper>
+);
 
 export default App;
