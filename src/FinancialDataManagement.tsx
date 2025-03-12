@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { Paper, Button, TextField, Box, FormControlLabel, Switch, Typography, Container } from '@mui/material';
+import { Paper, Button, TextField, Box, FormControlLabel, Switch, Typography, Container, Tooltip, IconButton } from '@mui/material';
 import MoreVertFilled from '@mui/icons-material/MoreVert';
 import FilterListFilled from '@mui/icons-material/FilterList';
 import AddFilled from '@mui/icons-material/Add';
-
-const handleCompanyClick = (id: number, navigate: any) => {
-  navigate(`/company/${id}`);
-};
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const columns = (navigate: any): GridColDef[] => [
   { field: 'company', headerName: 'Company Legal Name', flex: 1, minWidth: 200, renderCell: (params) => (
       <Button
         variant="text"
         color="primary"
-        onClick={() => handleCompanyClick(params.row.id, navigate)}
+        onClick={() => navigate(`/financial-data-management/company/company-details`)}
       >
         {params.value}
       </Button>
@@ -25,7 +22,25 @@ const columns = (navigate: any): GridColDef[] => [
   { field: 'teamcode', headerName: 'Team Code', width: 114 },
   { field: 'accountingconnection', headerName: 'Accounting Connection', width: 196 },
   { field: 'monthlyrefresh', headerName: 'Monthly Refresh', width: 148 },
-  { field: 'lastrefresh', headerName: 'Last Refresh', width: 188 },
+  { field: 'lastrefresh', 
+    headerName: 'Last Refresh', 
+    width: 188,
+    renderHeader: () => (
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          Last Refresh
+          <Tooltip title="Tooltip test">
+            <IconButton size="small" sx={{ ml: 0.5 }}>
+              <InfoOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+          Last sync with accounting
+        </Typography>
+      </Box>
+    )
+  },
   { field: 'calock', headerName: 'CA Lock', width: 77 },
   { field: 'archived', headerName: 'Archived', width: 81 },
   { field: 'hidden', headerName: 'Hidden', width: 72 },
@@ -62,6 +77,10 @@ const FinancialDataManagement: React.FC = () => {
   const [switchChecked, setSwitchChecked] = useState(false);
   const navigate = useNavigate();
 
+  const handleCompanyClick = (companyID: string) => {
+    navigate('/financial-data-management/company/company-details');
+  };
+  
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
   };
@@ -80,8 +99,7 @@ const FinancialDataManagement: React.FC = () => {
     <Container 
       maxWidth={false} 
       sx={{ mt: 2, mb: 4, maxWidth: 1768 }}>
-      <Paper 
-        elevation={3} 
+      <Paper  
         sx={{ py: 2, px: 2, bgcolor: 'white' }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>

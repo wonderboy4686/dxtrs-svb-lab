@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { createHtmlPlugin } from 'vite-plugin-html';
 
 export default defineConfig({
+  base: '/',
   plugins: [
     react(),
     createHtmlPlugin({
@@ -15,8 +16,11 @@ export default defineConfig({
   ],
   build: {
     rollupOptions: {
-      input: '/index.html',
+      input: 'index.html',
     },
     outDir: 'dist',
   },
+  preview: {
+    port: 3000
+  }
 });

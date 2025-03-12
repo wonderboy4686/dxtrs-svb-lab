@@ -106,15 +106,21 @@ function App() {
             <Button color="inherit">Logout</Button>
           </Toolbar>
         </AppBar>
-
-        <Toolbar /> {/* Spacer for fixed AppBar */}
-        <Container maxWidth={false} sx={{ bgcolor: '#f5f5f5', minHeight: 'calc(100vh - 64px)', py: 3 }}>
+        
+        <Container 
+          maxWidth={false} 
+          disableGutters
+          sx={{ 
+            bgcolor: '#f5f5f5', 
+            minHeight: '100vh', 
+            pt: '64px',
+           }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/financial-data-management" element={<FinancialDataManagement />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/my-account" element={<MyAccount />} />
-            <Route path="/company/:id" element={<CompanyDetail />} /> {/* Use CompanyDetail component */}
+            <Route path="/financial-data-management/company/*" element={<CompanyDetail />} /> {/* Use CompanyDetail component */}
           </Routes>
         </Container>
       </Router>
@@ -128,7 +134,7 @@ const PageTitle = () => {
 
   if (location.pathname === '/') {
     title = 'dxtrs-lab';
-  } else if (location.pathname.startsWith('/company/')) {
+  } else if (location.pathname.startsWith('/financial-data-management/company/')) {  // Updated path
     title = 'Company Detail';
   } else if (location.pathname === '/financial-data-management') {
     title = 'Financial Data Management';

@@ -3,7 +3,7 @@ import { Paper, Typography, List, ListItem, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const Home = () => (
-  <Paper elevation={4} sx={{ maxWidth: 'xl', p: 3, bgcolor: 'white', borderRadius: 1, mx: 'auto', my: 3 }}>
+  <Paper sx={{ maxWidth: 'xl', p: 3, bgcolor: 'white', borderRadius: 1, mx: 'auto', my: 3 }}>
     <Typography variant="h5" color="textPrimary" gutterBottom>
       dxtrs-lab
     </Typography>

@@ -11,6 +11,23 @@ node_modules
 dist
 dist-ssr
 *.local
+build
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
 
 # Editor directories and files
 .vscode/*
