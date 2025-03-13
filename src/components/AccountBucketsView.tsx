@@ -77,10 +77,16 @@ export const AccountBucketsView: React.FC = () => (
             sx={{ 
               border: 'none',
               '& .MuiDataGrid-virtualScroller': {
-                overflow: 'visible !important'  // Changed from hidden to visible
+                '&::-webkit-scrollbar': { display: 'none' },  // For Chrome
+                '&::-webkit-scrollbar-track': { display: 'none' },  // Additional macOS support
+                '&::-webkit-scrollbar-thumb': { display: 'none' },  // Additional macOS support
+                msOverflowStyle: 'none',  // For IE and Edge
+                scrollbarWidth: 'none',   // For Firefox
+                overflow: 'hidden',
+                '-webkit-overflow-scrolling': 'touch'  // Smooth scrolling on iOS
               },
               '& .MuiDataGrid-main': {
-                overflow: 'visible'  // Changed from hidden to visible
+                overflow: 'hidden'
               }
             }}
                 rows={[
